@@ -1,60 +1,64 @@
 package Banca;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class Banca {
-	
-	//Variabili
-	private ArrayList<Conto> conti;
-	
-	public Banca () {
-		this.conti = new ArrayList<>();
-	}
-	
-	public boolean verificaUtenti(String intestatario) {
-		for (Conto conto : conti) { // conto oggetto ||conti Lista
-            // Controlla se l'intestatario o l'IBAN corrispondono
-            if (conto.getIntestatario().equalsIgnoreCase(intestatario) ) {
-                return true; // Se trova Utente
+    
+    // Variabili
+    private HashMap<String, Conto> conti;
+    
+    public Banca() {
+        this.conti = new HashMap<>();
+ 
+    }
+    
+    // Metodo per verificare se un utente esiste utilizzando l'intestatario
+    public boolean verificaUtenti(String intestatario) {
+        for (Conto conto : conti.values()) {
+            if (conto.getIntestatario().equalsIgnoreCase(intestatario)) {
+                return true; // Se trova l'utente
             }
         }
-        return false; // Se non trova Utente
-	}
-	
-	public void AggiungiUtente(String intestatario,String iban) {
-		if(verificaUtenti(intestatario)) {
-			System.out.println("Utente gia esistente");
-		}
-		else {
-			Conto conto = new Conto(intestatario,iban);
-			conti.add(conto);
-		}
-		
-	}
-	
-	public void AggiungiUtente(String intestatario,String iban,double saldo) {
-			Conto conto = new Conto(intestatario,iban,saldo);
-			conti.add(conto);
-		
-	}
-	
-	public void stampaConti() {
-		for (Conto conto : conti) { 
+        return false; // Se non trova l'utente
+    }
+    
+  public String generaIban() {
+        // Genera un IBAN univoco usando UUID
+        return "IBAN-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+    }
+ // Metodo per aggiungere un utente, generando un IBAN automaticamente
+    public void AggiungiUtente(String intestatario) {
+       
+            String iban = generaIban();
+            Conto conto = new Conto(intestatario, iban);
+            conti.put(iban, conto);
+            
+        
+    }
+    
+    public Conto getConto(String iban) {
+        return conti.get(iban);
+    }
+    
+    // Metodo per stampare tutti i conti
+    public void stampaConti() {
+        for (Conto conto : conti.values()) {
             System.out.println(conto);
         }
-	}
-	
-	public void DepositaSaldo(String intestatario,double denaroIn) {
-		for (Conto conto : conti) { // conto oggetto ||conti Lista
-			if(verificaUtenti(intestatario)) {
-				
-				conto.setSaldo() = conto.getSaldo() + denaroIn;
-			}
+    }
+    
+    // Metodo per visualizzare il saldo di un conto tramite l'IBAN
+    public void visualizzazioneSaldo(String iban) {
+        Conto conto = conti.get(iban);
+        if (conto != null) {
+            System.out.println("------------");
+            System.out.println("Saldo: " + conto.getSaldo());
+            System.out.println("------------");
+        } else {
+            System.out.println("Nessun conto trovato con questo IBAN");
         }
-	}
-	public void RitiraiSaldo() {
-		
-	}
-	
+    }
+
 	
 }

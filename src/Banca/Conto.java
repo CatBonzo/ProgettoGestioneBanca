@@ -6,21 +6,13 @@ public class Conto {
 	private String ContoCorrente;
 	private String Intestatario;
 	private double saldo;
-		
-	public Conto(double saldo) {
-		this.saldo = saldo;
-	}
 	    
-	    public Conto(String iban, String Intestatario, double saldo) {
-	        this.ContoCorrente = iban;
-	        this.Intestatario = Intestatario;
-	        this.saldo = saldo; // Imposta il saldo passato come parametro
-	    }
-	    public Conto(String Intestatario, String iban) {
-	        this.Intestatario = Intestatario;
-	        this.ContoCorrente = iban;
-	        this.saldo = 0; // Imposta il saldo a 0 di default
-	    }
+	    
+	public Conto(String Intestatario, String iban) {
+		this.Intestatario = Intestatario;
+	    this.ContoCorrente = iban;
+	    this.saldo = 0; // Imposta il saldo a 0 di default
+	}
 	
 	public String getContoCorrente() {
 		return ContoCorrente;
@@ -40,7 +32,28 @@ public class Conto {
 	public void setSaldo(double saldo) {
 		this.saldo = saldo;
 	}
-	 
+	
+	public void deposita(double importo) {
+		if (importo < 0) {
+	        System.out.println("Non puoi aggiungere denaro negativo");
+		}
+		else {
+			this.saldo = this.saldo + importo;
+		}
+		
+	}
+	
+	public void prelievo(double importo) {
+	    if (importo <= 0) {
+	        System.out.println("L'importo da ritirare deve essere positivo");
+	    } else if (this.saldo < importo) {
+	        System.out.println("Saldo insufficiente");
+	    } else {
+	        this.saldo -= importo; // Sottrae l'importo dal saldo
+	        System.out.println("Prelievo effettuato: " + importo);
+	    }
+	}
+	
 	@Override
 	public String toString() {
 		return "Conto: [ Intestatario: " + Intestatario +", ContoCorrente: " + ContoCorrente+", Saldo: " + saldo+" ]";
