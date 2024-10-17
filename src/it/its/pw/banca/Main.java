@@ -1,4 +1,4 @@
-package Banca;
+package it.its.pw.banca;
 
 import java.util.Scanner;
 
@@ -8,10 +8,12 @@ public class Main {
     public static void menu() {
         System.out.println("------Banca-----------");
         System.out.println("1) Creazione conto");
-        System.out.println("2) Inserimento saldo");
-        System.out.println("3) Ritirare saldo");
+        System.out.println("2) Depositare saldo");
+        System.out.println("3) Prelievo saldo");
         System.out.println("4) Visualizzazione saldo");
-        System.out.println("5) Esci");
+        System.out.println("5) Trasferimento conto");
+        System.out.println("6) Chiusura conto");
+        System.out.println("7) Esci");
         System.out.println("----------------------");
     }
     
@@ -23,7 +25,7 @@ public class Main {
         int scelta = 0;
         
         // Ciclo infinito per mostrare il menu finché non si sceglie di uscire
-        while (scelta != 5) {
+        while (scelta != 7) {
             menu();
             System.out.print("Scegli un'opzione: ");
             scelta = input.nextInt();
@@ -34,7 +36,7 @@ public class Main {
                     System.out.print("Intestatario: ");
                     intestatario = input.nextLine();
                     
-                    b1.AggiungiUtente(intestatario);
+                    b1.creazioneConto(intestatario);
                     b1.stampaConti();
                     break;
                     
@@ -78,10 +80,31 @@ public class Main {
                     b1.visualizzazioneSaldo(ibanVisualizza);
                     break;
                 
-                case 5: // Esci
+                case 5: // Trasferimento
+                	System.out.print("IBAN Intestatario: ");
+                    String ibanIntestatario = input.nextLine();
+                    
+                    System.out.print("IBAN destinatario: ");
+                    String ibanDestinatario = input.nextLine();
+                    
+                    System.out.print("Importo da inviare: ");
+                    double importoInviare = input.nextDouble();
+                    
+                    b1.trasferimentoConto(ibanIntestatario, ibanDestinatario, importoInviare);
+                    b1.stampaConti();
+                    
+                    break;
+                    
+                case 6: // Chiusura conto
+                	System.out.print("IBAN: ");
+                    String ibanChiusura = input.nextLine();
+                    b1.eliminaConto(ibanChiusura);
+                    b1.stampaConti();
+                    break;
+                case 7: // Esci
                     System.out.println("Uscita dal programma.");
                     break;
-                
+                    
                 default:
                     System.out.println("Scelta non valida. Riprova.");
             }

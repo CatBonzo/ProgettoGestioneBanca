@@ -1,4 +1,4 @@
-package Banca;
+package it.its.pw.banca;
 
 public class Conto {
 	
@@ -33,27 +33,28 @@ public class Conto {
 		this.saldo = saldo;
 	}
 	
-	public void deposita(double importo) {
+	public double deposita(double importo) {
 		if (importo < 0) {
 	        System.out.println("Non puoi aggiungere denaro negativo");
 		}
-		else {
-			this.saldo = this.saldo + importo;
-		}
+			return this.saldo = this.saldo + importo;
 		
 	}
 	
-	public void prelievo(double importo) {
+	public double prelievo(double importo) {
 	    if (importo <= 0) {
 	        System.out.println("L'importo da ritirare deve essere positivo");
 	    } else if (this.saldo < importo) {
 	        System.out.println("Saldo insufficiente");
-	    } else {
-	        this.saldo -= importo; // Sottrae l'importo dal saldo
-	        System.out.println("Prelievo effettuato: " + importo);
 	    }
+	    	System.out.println("Prelievo effettuato: " + importo);
+	        return this.saldo -= importo; // Sottrae l'importo dal saldo   
+		
 	}
 	
+	public void trasferimento() {
+		
+	}
 	@Override
 	public String toString() {
 		return "Conto: [ Intestatario: " + Intestatario +", ContoCorrente: " + ContoCorrente+", Saldo: " + saldo+" ]";

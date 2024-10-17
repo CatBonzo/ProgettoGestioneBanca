@@ -1,4 +1,4 @@
-package Banca;
+package it.its.pw.banca;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -28,7 +28,7 @@ public class Banca {
         return "IBAN-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
     }
  // Metodo per aggiungere un utente, generando un IBAN automaticamente
-    public void AggiungiUtente(String intestatario) {
+    public void creazioneConto(String intestatario) {
        
             String iban = generaIban();
             Conto conto = new Conto(intestatario, iban);
@@ -60,5 +60,30 @@ public class Banca {
         }
     }
 
+	public void eliminaConto(String iban) {
+		Conto conto = conti.get(iban);
+		if (conto != null) {
+            conti.remove(iban, conto);
+            System.out.println("Conto chiuso");
+        } else {
+            System.out.println("Nessun conto trovato con questo IBAN");
+        }
+	}
 	
+	public void trasferimentoConto(String ibanIn, String ibanDest, double importo) {
+	    Conto contoIn = conti.get(ibanIn);
+	    Conto contoDest = conti.get(ibanDest);
+
+	    
+	    // Prelevare l'importo dal conto di origine
+	    double importoPrelevato = contoIn.prelievo(importo);
+
+	    // Se il prelievo è andato a buon fine
+	    if (importoPrelevato > 0) {
+	        contoDest.deposita(importoPrelevato);
+	        System.out.println("Trasferimento effettuato con successo");
+	    } else {
+	        System.out.println("Fondi insufficienti");
+	    }
+	}
 }
