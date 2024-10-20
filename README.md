@@ -1,4 +1,4 @@
-Progetto Gestione Banca
+# Documentazione del Progetto “Banca”
 
 Descrizione Generale
 
@@ -16,25 +16,25 @@ Funzionalità Implementate in Entrambe le Versioni:
 	•	Trasferimento di denaro tra conti.
 	•	Chiusura di conti.
 
-Versione GUI (Swing)
+## Versione GUI (Swing)
 
 Descrizione
 
 Questa versione utilizza Swing per fornire una semplice interfaccia grafica che permette all’utente di interagire con il sistema bancario tramite pannelli e pulsanti. Non c’è persistenza dei dati, quindi le informazioni sui conti esistono solo durante l’esecuzione dell’applicazione.
 
-Caratteristiche Principali
+### Caratteristiche Principali
 
 	•	Interfaccia Utente: Finestra principale con menu che permette di accedere alle varie operazioni bancarie.
 	•	Pannelli: Ogni operazione ha il proprio pannello, come il pannello per la creazione di un conto, il deposito, il prelievo, il trasferimento e la chiusura di un conto.
 	•	Simulazione Banca: I dati relativi ai conti sono gestiti in memoria, senza persistenza al termine dell’esecuzione.
 
-Versione Web (Spring Boot + Thymeleaf)
+## Versione Web (Spring Boot + Thymeleaf)
 
 Descrizione
 
 Questa versione è stata progettata come un’applicazione web utilizzando Spring Boot per il backend, Thymeleaf per il frontend e MySQL per la persistenza dei dati. In questa versione, i dati sui conti sono memorizzati in un database MySQL, permettendo la conservazione e la gestione dei dati in modo persistente.
 
-Caratteristiche Principali
+### Caratteristiche Principali
 
 	•	Interfaccia Web: Un sito web dove l’utente può accedere e gestire i propri conti bancari tramite pagine HTML generate con Thymeleaf.
 	•	Persistenza dei Dati: Tutte le informazioni sui conti (intestatari, saldo, transazioni) sono memorizzate in un database MySQL, garantendo la persistenza tra le sessioni.
@@ -43,7 +43,7 @@ Caratteristiche Principali
 
 Dettagli delle Funzionalità Implementate
 
-Funzionalità Comune
+## Funzionalità Comuni
 
 	•	Creazione di Conti: L’utente può creare un nuovo conto inserendo il nome dell’intestatario. Un identificativo univoco viene generato automaticamente.
 	•	Deposito di Denaro: È possibile depositare denaro su un conto esistente utilizzando il numero del conto.
