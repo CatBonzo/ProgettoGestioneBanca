@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Gestione Conti - Banca</title>
+</head>
+
+<body>
+    <h1>Gestione Conti</h1>
+
+    <p>Qui puoi vedere tutti i conti correnti:</p>
+
+    <ul>
+        <li th:each="conto : ${conti}">
+            <span th:text="${conto.intestatario}">Nome</span> -
+            <span th:text="${conto.saldo}">Saldo</span>
+        </li>
+    </ul>
+
+    <a th:href="@{/{}}" class="btn">Torna alla Home</a>
+</body>
+
+</html>
