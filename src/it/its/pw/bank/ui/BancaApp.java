@@ -10,7 +10,7 @@ public class BancaApp {
     private final ContoService contoService = new ContoService();
     private JTextArea textAreaOutput;
     private JTextField textImporto;
-    private JTextField textIntestatario; 
+    private JTextField textIntestatario;
     private Conto contoSelezionato;
 
     public BancaApp() {
@@ -130,8 +130,9 @@ public class BancaApp {
     // Seleziona il conto corrente
     private void selezionaConto(Conto conto) {
         contoSelezionato = conto;
-        textAreaOutput.append("Conto selezionato: " + conto.getContoCorrente() + " (Intestatario: "
-                + conto.getIntestatario() + ")\n");
+        textAreaOutput.append("Conto selezionato: " + conto.getContoCorrente() +
+                " (Intestatario: " + conto.getIntestatario() +
+                ", Saldo: " + conto.getSaldo() + ")\n");
     }
 
     private void deposita() {
@@ -142,9 +143,20 @@ public class BancaApp {
 
         try {
             double importo = Double.parseDouble(textImporto.getText().trim());
-            contoService.deposita(contoSelezionato.getContoCorrente(), importo);
-            textAreaOutput.append(
-                    "Deposito di " + importo + " effettuato sul conto: " + contoSelezionato.getContoCorrente() + "\n");
+            if (importo <= 0) {
+                textAreaOutput.append("Errore: L'importo da depositare deve essere positivo.\n");
+                return;
+            }
+
+            // Effettua il deposito
+            if (contoService.deposita(contoSelezionato.getContoCorrente(), importo)) {
+                contoSelezionato = contoService.getContoByIban(contoSelezionato.getContoCorrente());
+                textAreaOutput.append(
+                        "Deposito di " + importo + " effettuato sul conto: " + contoSelezionato.getContoCorrente() +
+                                "\n" + "Nuovo saldo: " + contoSelezionato.getSaldo() + "\n");
+            } else {
+                textAreaOutput.append("Errore: Deposito non riuscito. Conto non trovato.\n");
+            }
         } catch (NumberFormatException ex) {
             textAreaOutput.append("Importo non valido.\n");
         }
@@ -158,9 +170,20 @@ public class BancaApp {
 
         try {
             double importo = Double.parseDouble(textImporto.getText().trim());
-            contoService.prelievo(contoSelezionato.getContoCorrente(), importo);
-            textAreaOutput.append(
-                    "Prelievo di " + importo + " effettuato dal conto: " + contoSelezionato.getContoCorrente() + "\n");
+            if (importo <= 0) {
+                textAreaOutput.append("Errore: L'importo da prelevare deve essere positivo.\n");
+                return;
+            }
+
+            // Effettua il prelievo
+            if (contoService.prelievo(contoSelezionato.getContoCorrente(), importo)) {
+                contoSelezionato = contoService.getContoByIban(contoSelezionato.getContoCorrente());
+                textAreaOutput.append(
+                        "Prelievo di " + importo + " effettuato dal conto: " + contoSelezionato.getContoCorrente() +
+                                "\n" + "Nuovo saldo: " + contoSelezionato.getSaldo() + "\n");
+            } else {
+                textAreaOutput.append("Errore: Prelievo non riuscito. Conto non trovato o saldo insufficiente.\n");
+            }
         } catch (NumberFormatException ex) {
             textAreaOutput.append("Importo non valido.\n");
         } catch (IllegalArgumentException ex) {

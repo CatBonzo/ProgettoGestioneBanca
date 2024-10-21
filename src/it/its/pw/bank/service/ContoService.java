@@ -56,30 +56,37 @@ public class ContoService {
         return null; // Restituisce null se non trovato
     }
 
-    // Metodo per depositare denaro su un conto
-    public boolean deposita(String iban, double importo) {
-        Conto conto = getContoByIban(iban);
-        if (conto != null) {
-            double nuovoSaldo = conto.deposita(importo);
+// Metodo per depositare denaro su un conto
+public boolean deposita(String iban, double importo) {
+    if (importo <= 0) {
+        System.out.println("L'importo da depositare deve essere positivo.");
+        return false; 
+    }
+    Conto conto = getContoByIban(iban);
+    if (conto != null) {
+        double nuovoSaldo = conto.deposita(importo);
+        return aggiornaSaldo(iban, nuovoSaldo);
+    }
+    return false; 
+}
+
+// Metodo per prelevare denaro da un conto
+public boolean prelievo(String iban, double importo) {
+    if (importo <= 0) {
+        System.out.println("L'importo da prelevare deve essere positivo.");
+        return false; 
+    }
+    Conto conto = getContoByIban(iban);
+    if (conto != null) {
+        if (conto.getSaldo() >= importo) {
+            double nuovoSaldo = conto.prelievo(importo);
             return aggiornaSaldo(iban, nuovoSaldo);
+        } else {
+            System.out.println("Saldo insufficiente per il prelievo.");
         }
-        return false; // Restituisce false se conto non trovato
     }
-
-    // Metodo per prelevare denaro da un conto
-    public boolean prelievo(String iban, double importo) {
-        Conto conto = getContoByIban(iban);
-        if (conto != null) {
-            if (conto.getSaldo() >= importo) {
-                double nuovoSaldo = conto.prelievo(importo);
-                return aggiornaSaldo(iban, nuovoSaldo);
-            } else {
-                System.out.println("Saldo insufficiente per il prelievo.");
-            }
-        }
-        return false; // Restituisce false se conto non trovato
-    }
-
+    return false; 
+}
     // Metodo per aggiornare il saldo nel database
     private boolean aggiornaSaldo(String iban, double nuovoSaldo) {
         String sql = "UPDATE Conto SET saldo = ? WHERE iban = ?";
